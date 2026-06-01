@@ -1,0 +1,1661 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מדריך קצר לבילדר מתחיל</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f5f7;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --line: rgba(29, 29, 31, 0.12);
+      --line-strong: rgba(29, 29, 31, 0.18);
+      --accent: #0071e3;
+      --accent-soft: rgba(0, 113, 227, 0.1);
+      --green: #138a4d;
+      --green-soft: rgba(19, 138, 77, 0.1);
+      --orange: #b05b00;
+      --orange-soft: rgba(176, 91, 0, 0.1);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.08);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max: 1160px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(0, 113, 227, 0.12), transparent 32rem),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 52%, #ffffff 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .progress-track {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: 4px;
+      background: transparent;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #63b3ff);
+      transition: width 120ms ease;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 12px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 12px auto 0;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 12px 44px rgba(0, 0, 0, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      padding-inline: 8px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #1d1d1f;
+      color: #fff;
+    }
+
+    .brand-mark svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 2px;
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      min-height: 36px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      transition: background 180ms ease, color 180ms ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 76px 0 36px;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 460px;
+      padding: clamp(28px, 6vw, 70px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.54);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin: 0 0 18px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .eyebrow svg,
+    .mini-icon svg,
+    .icon svg {
+      width: 17px;
+      height: 17px;
+      stroke-width: 1.8;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 880px;
+      margin-bottom: 20px;
+      font-size: clamp(3rem, 8vw, 6.75rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 10px 17px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .pill-button.primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 34px rgba(0, 113, 227, 0.25);
+    }
+
+    .pill-button.secondary {
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--text);
+    }
+
+    .pill-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-panel {
+      display: grid;
+      align-content: stretch;
+      gap: 14px;
+    }
+
+    .stat-card,
+    .chapter-card,
+    .lesson-card,
+    .flow-card,
+    .term-card,
+    .ethics-card,
+    .prompt-card,
+    .checkpoint {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 44px rgba(0, 0, 0, 0.045);
+    }
+
+    .stat-card {
+      padding: 22px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .chapter-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 14px 0 28px;
+    }
+
+    .chapter-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 118px;
+      padding: 18px;
+    }
+
+    .chapter-card .number {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 16px;
+      border-radius: 50%;
+      background: #1d1d1f;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .chapter-card b {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .chapter-card small {
+      color: var(--muted);
+    }
+
+    main {
+      padding-bottom: 82px;
+    }
+
+    .section {
+      scroll-margin-top: 96px;
+      padding: 44px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(260px, 0.55fr);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .section h2 {
+      margin-bottom: 8px;
+      font-size: clamp(2rem, 4vw, 3.45rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .section-lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .read-meter {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .read-meter-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .meter-line {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(29, 29, 31, 0.08);
+    }
+
+    .meter-line span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 200ms ease;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .lesson-card {
+      padding: 22px;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .mini-icon,
+    .icon {
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .mini-icon {
+      width: 34px;
+      height: 34px;
+      margin-bottom: 14px;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    .lesson-card h3,
+    .flow-card h3,
+    .prompt-card h3,
+    .ethics-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.18rem;
+      letter-spacing: 0;
+    }
+
+    .lesson-card p,
+    .flow-card p,
+    .prompt-card p,
+    .ethics-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .accordion {
+      display: grid;
+      gap: 10px;
+    }
+
+    .accordion-item {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(18px);
+    }
+
+    .accordion-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      min-height: 64px;
+      padding: 16px 18px;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      text-align: right;
+    }
+
+    .accordion-trigger b {
+      font-size: 1.04rem;
+    }
+
+    .chevron {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(29, 29, 31, 0.06);
+      color: var(--muted);
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .accordion-item.open .chevron {
+      transform: rotate(180deg);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 260ms ease;
+    }
+
+    .accordion-content {
+      padding: 0 18px 18px;
+      color: var(--muted);
+    }
+
+    .compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .compact-table th,
+    .compact-table td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+    }
+
+    .compact-table th {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .compact-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .flow-card {
+      position: relative;
+      padding: 20px;
+      min-height: 150px;
+    }
+
+    .flow-card .step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .state-card {
+      min-height: 120px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .state-card b {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .state-card span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .prompt-card {
+      padding: 22px;
+    }
+
+    .prompt-card.bad {
+      background: var(--orange-soft);
+      border-color: rgba(176, 91, 0, 0.2);
+    }
+
+    .prompt-card.good {
+      background: var(--green-soft);
+      border-color: rgba(19, 138, 77, 0.22);
+    }
+
+    .prompt-card .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-weight: 800;
+    }
+
+    .prompt-card.bad .label {
+      color: var(--orange);
+    }
+
+    .prompt-card.good .label {
+      color: var(--green);
+    }
+
+    .quote {
+      margin: 0;
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--text);
+    }
+
+    .ethics-card {
+      display: flex;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .ethics-card .icon {
+      background: rgba(29, 29, 31, 0.06);
+      color: var(--text);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+      counter-reset: work;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .timeline-item::before {
+      counter-increment: work;
+      content: counter(work);
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #1d1d1f;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .timeline-item b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .timeline-item span {
+      color: var(--muted);
+    }
+
+    .terms-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 180px;
+      padding: 0 12px;
+    }
+
+    .search-wrap svg {
+      width: 18px;
+      color: var(--muted);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filter-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-pills button {
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .filter-pills button.active {
+      border-color: transparent;
+      background: #1d1d1f;
+      color: #fff;
+    }
+
+    .terms-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .term-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 150px;
+      padding: 17px;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .term-card:hover,
+    .term-card:focus {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      background: var(--surface-strong);
+      outline: none;
+    }
+
+    .term-card b {
+      display: block;
+      line-height: 1.2;
+    }
+
+    .term-card span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .term-card small {
+      margin-top: auto;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal.open {
+      display: grid;
+    }
+
+    .modal-card {
+      width: min(520px, 100%);
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 1.55rem;
+    }
+
+    .icon-button {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .modal-card p {
+      color: var(--muted);
+    }
+
+    .example-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .completion {
+      display: grid;
+      grid-template-columns: minmax(0, 0.75fr) minmax(240px, 0.25fr);
+      gap: 18px;
+      align-items: center;
+      margin-top: 36px;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: #1d1d1f;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .completion p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .completion h2 {
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+    }
+
+    .completion .pill-button {
+      justify-self: end;
+      background: #fff;
+      color: #1d1d1f;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-head,
+      .completion {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        min-height: auto;
+      }
+
+      .chapter-strip,
+      .flow-row,
+      .state-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-3,
+      .terms-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .completion .pill-button {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+        border-radius: 24px;
+      }
+
+      .brand {
+        justify-content: space-between;
+      }
+
+      .nav {
+        padding-bottom: 2px;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .hero-copy {
+        padding: 28px;
+      }
+
+      h1 {
+        font-size: clamp(2.55rem, 14vw, 4.2rem);
+      }
+
+      .grid-2,
+      .grid-3,
+      .chapter-strip,
+      .flow-row,
+      .state-grid,
+      .terms-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .terms-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        border-radius: 24px;
+      }
+
+      .filter-pills {
+        padding-bottom: 2px;
+      }
+
+      .compact-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-bar" id="pageProgress"></div>
+  </div>
+
+  <header class="topbar" aria-label="ניווט פנימי">
+    <a class="brand" href="#top" aria-label="חזרה לראש העמוד">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 3v18"></path>
+          <path d="M5 8h14"></path>
+          <path d="M7 16h10"></path>
+        </svg>
+      </span>
+      <span>Builder 101</span>
+    </a>
+    <nav class="nav" id="chapterNav">
+      <a href="#basics">בסיס</a>
+      <a href="#thinking">חשיבה</a>
+      <a href="#uxui">UX/UI</a>
+      <a href="#tech">טכני</a>
+      <a href="#ai">AI</a>
+      <a href="#ethics">אחריות</a>
+      <a href="#process">תהליך</a>
+      <a href="#terms">מושגים</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="shell hero">
+      <div class="hero-copy">
+        <p class="eyebrow">
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 19.5V6a2 2 0 0 1 2-2h9l5 5v10.5a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1-.5-.5Z"></path>
+              <path d="M14 4v5h5"></path>
+            </svg>
+          </span>
+          אונבורדינג קצר לבילדר מתחיל
+        </p>
+        <h1>לחשוב ברור. לבנות קטן. ללמוד מהר.</h1>
+        <p>
+          מדריך אינטראקטיבי שמסביר את השפה הבסיסית של מוצר דיגיטלי:
+          משתמשים, מסכים, דאטה, UX/UI, AI ותהליך עבודה נכון.
+        </p>
+        <div class="hero-actions">
+          <a class="pill-button primary" href="#basics">
+            להתחיל
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </a>
+          <a class="pill-button secondary" href="#terms">לפתוח מילון מושגים</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="תקציר">
+        <div class="stat-card">
+          <strong>8</strong>
+          <span>פרקים קצרים, כל אחד בנוי לקריאה מהירה.</span>
+        </div>
+        <div class="stat-card">
+          <strong>25</strong>
+          <span>מושגים ראשונים עם חיפוש, סינון ודוגמאות.</span>
+        </div>
+        <div class="stat-card">
+          <strong>10</strong>
+          <span>צעדים פשוטים מתובנה ראשונה עד גרסה באוויר.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shell chapter-strip" aria-label="מה תלמדו">
+      <a class="chapter-card" href="#thinking">
+        <span class="number">1</span>
+        <b>שאלות לפני פתרון</b>
+        <small>בעיה, משתמש ו-MVP.</small>
+      </a>
+      <a class="chapter-card" href="#uxui">
+        <span class="number">2</span>
+        <b>ממשק שנעים להבין</b>
+        <small>בהירות, מצבים ו-CTA.</small>
+      </a>
+      <a class="chapter-card" href="#tech">
+        <span class="number">3</span>
+        <b>שפה טכנית בסיסית</b>
+        <small>Frontend, Backend, API.</small>
+      </a>
+      <a class="chapter-card" href="#ai">
+        <span class="number">4</span>
+        <b>עבודה חכמה עם AI</b>
+        <small>פרומפט, הקשר ואיטרציה.</small>
+      </a>
+    </section>
+
+    <section class="shell section" id="basics" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 · בסיס</div>
+          <h2>איך מוצר דיגיטלי עובד</h2>
+          <p class="section-lead">מוצר דיגיטלי הוא כלי שעוזר למשתמש לעשות משהו טוב יותר, מהר יותר או פשוט יותר.</p>
+        </div>
+        <div class="read-meter">
+          <div class="read-meter-row">
+            <span>התקדמות קריאה</span>
+            <b id="readPercent">0%</b>
+          </div>
+          <div class="meter-line"><span id="readMeter"></span></div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="lesson-card">
+          <span class="mini-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="4" y="5" width="16" height="14" rx="3"></rect>
+              <path d="M8 9h8"></path>
+              <path d="M8 13h5"></path>
+            </svg>
+          </span>
+          <h3>מסך</h3>
+          <p>נקודת מפגש אחת בין המשתמש למוצר. לדוגמה: דשבורד, הרשמה או עמוד תשלום.</p>
+        </article>
+        <article class="lesson-card">
+          <span class="mini-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M7 7h10v10H7z"></path>
+              <path d="M4 4h4"></path>
+              <path d="M16 20h4"></path>
+              <path d="M4 20h4"></path>
+              <path d="M16 4h4"></path>
+            </svg>
+          </span>
+          <h3>Feature</h3>
+          <p>יכולת אחת בתוך המוצר. לדוגמה: כפתור “שלח תזכורת”.</p>
+        </article>
+        <article class="lesson-card">
+          <span class="mini-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 3v18"></path>
+              <path d="M6 8h12"></path>
+              <path d="M8 16h8"></path>
+            </svg>
+          </span>
+          <h3>MVP</h3>
+          <p>הגרסה הכי קטנה שאפשר לבדוק עם משתמשים אמיתיים.</p>
+        </article>
+      </div>
+
+      <div class="section" style="padding-bottom:0">
+        <table class="compact-table" aria-label="מושגי מוצר בסיסיים">
+          <thead>
+            <tr>
+              <th>מושג</th>
+              <th>הסבר קצר</th>
+              <th>דוגמה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>משתמש</td>
+              <td>האדם שעבורו בונים את המוצר.</td>
+              <td>פרילנסר שרוצה לעקוב אחרי לקוחות.</td>
+            </tr>
+            <tr>
+              <td>בעיה</td>
+              <td>משהו שמפריע למשתמש.</td>
+              <td>קשה לדעת מי שילם ומי לא.</td>
+            </tr>
+            <tr>
+              <td>User Flow</td>
+              <td>הדרך שהמשתמש עובר במוצר.</td>
+              <td>הרשמה → יצירת לקוח → שליחת חשבונית.</td>
+            </tr>
+            <tr>
+              <td>Prototype</td>
+              <td>דגם ראשוני לבדיקה לפני בנייה מלאה.</td>
+              <td>מסכים לחיצים ב-Figma.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="shell section" id="thinking" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 · חשיבה מוצרית</div>
+          <h2>לפני שבונים, שואלים</h2>
+          <p class="section-lead">לא מתחילים מהפתרון. מתחילים מהבעיה, מהמשתמש ומהבדיקה הכי קטנה שאפשר לעשות.</p>
+        </div>
+      </div>
+
+      <div class="accordion" data-accordion>
+        <article class="accordion-item open">
+          <button class="accordion-trigger" type="button">
+            <b>מי המשתמש?</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">לא “כולם”. אדם ברור עם צורך ברור. למשל: בעלת עסק קטן שמנהלת פגישות לבד.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>מה כואב לו?</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">הכאב הוא לא רעיון לפיצ׳ר. הוא החיכוך בחיים של המשתמש: זמן, בלבול, כסף, טעויות.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>מה בודקים קודם?</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">הגרסה הכי קטנה שמוכיחה שיש ערך. כל מה שלא חייבים עכשיו עובר לגרסה הבאה.</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="section" style="padding-bottom:0">
+        <div class="flow-row">
+          <article class="flow-card">
+            <span class="step">1</span>
+            <h3>Discover</h3>
+            <p>חוקרים את המשתמש, הבעיה והמצב הקיים.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">2</span>
+            <h3>Define</h3>
+            <p>מגדירים בדיוק איזו בעיה פותרים.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">3</span>
+            <h3>Develop</h3>
+            <p>מפתחים כמה רעיונות לפתרון.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">4</span>
+            <h3>Deliver</h3>
+            <p>בונים גרסה קטנה, בודקים ומשפרים.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="uxui" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 · UX/UI</div>
+          <h2>ממשק טוב מוריד מאמץ</h2>
+          <p class="section-lead">UI הוא איך זה נראה. UX הוא איך זה עובד ומרגיש. יחד הם צריכים להיות ברורים, צפויים ונוחים.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="lesson-card">
+          <span class="mini-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 7h16"></path>
+              <path d="M4 12h10"></path>
+              <path d="M4 17h6"></path>
+            </svg>
+          </span>
+          <h3>היררכיה</h3>
+          <p>מה רואים קודם, ומה פחות חשוב. מסך טוב לא נותן לכל דבר לצעוק.</p>
+        </article>
+        <article class="lesson-card">
+          <span class="mini-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M6 4v16"></path>
+              <path d="M18 4v16"></path>
+              <path d="M8 12h8"></path>
+            </svg>
+          </span>
+          <h3>ריווחים</h3>
+          <p>המרחקים בין אלמנטים. ריווח נכון יוצר תחושת סדר ונשימה.</p>
+        </article>
+        <article class="lesson-card">
+          <span class="mini-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M5 6h14"></path>
+              <path d="M9 6v12"></path>
+              <path d="M15 6v12"></path>
+              <path d="M7 18h10"></path>
+            </svg>
+          </span>
+          <h3>טיפוגרפיה</h3>
+          <p>גודל, משקל וסגנון הטקסט. טקסט ברור הוא חלק מהמוצר, לא קישוט.</p>
+        </article>
+      </div>
+
+      <div class="state-grid">
+        <div class="state-card"><b>CTA</b><span>הפעולה המרכזית במסך. למשל: “המשך”.</span></div>
+        <div class="state-card"><b>Loading</b><span>מה קורה כשהמערכת טוענת מידע.</span></div>
+        <div class="state-card"><b>Error</b><span>מה המשתמש רואה כשמשהו נכשל.</span></div>
+        <div class="state-card"><b>Empty</b><span>מה מוצג כשאין עדיין תוכן.</span></div>
+      </div>
+    </section>
+
+    <section class="shell section" id="tech" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">04 · טכני</div>
+          <h2>להבין תפקיד, לא לשנן קוד</h2>
+          <p class="section-lead">המטרה היא לדעת מה כל חלק עושה במוצר כדי לדבר ברור עם AI, מפתחים וכלי בנייה.</p>
+        </div>
+      </div>
+
+      <div class="accordion" data-accordion>
+        <article class="accordion-item open">
+          <button class="accordion-trigger" type="button">
+            <b>Frontend, Backend, Database</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">Frontend הוא מה שהמשתמש רואה. Backend הוא הלוגיקה מאחורי הקלעים. Database הוא המקום שבו שומרים מידע.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>API ו-Integration</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">API הוא דרך שבה מערכות מדברות. Integration הוא חיבור בין המוצר שלך לשירות אחר, כמו סליקה או אימייל.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>Hosting, Deploy, Domain</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">Hosting הוא המקום שבו המוצר רץ. Deploy הוא העלאה לאוויר. Domain הוא הכתובת שאנשים מקלידים.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>GitHub ו-Environment Variables</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">GitHub שומר ומנהל קוד. Environment Variables הן הגדרות סודיות כמו מפתחות API וסיסמאות.</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="ai" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">05 · AI</div>
+          <h2>AI עובד טוב עם מסגרת</h2>
+          <p class="section-lead">ככל שהמשימה קטנה וברורה יותר, כך התוצאה טובה יותר. נותנים הקשר, מגבלות ויעד אחד בכל פעם.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="lesson-card">
+          <h3>Prompt</h3>
+          <p>ההוראה שנותנים ל-AI. היא צריכה לכלול מטרה, הקשר ותוצאה רצויה.</p>
+        </article>
+        <article class="lesson-card">
+          <h3>Context</h3>
+          <p>הרקע שה-AI צריך לדעת: מי המשתמש, מה כבר קיים ומה מגבלות המשימה.</p>
+        </article>
+        <article class="lesson-card">
+          <h3>Scope</h3>
+          <p>גבולות המשימה. מה בפנים, מה בחוץ ומה דוחים לשלב הבא.</p>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px">
+        <article class="prompt-card bad">
+          <div class="label">פרומפט חלש</div>
+          <p class="quote">תבנה לי אפליקציה לניהול כסף.</p>
+          <p style="margin-top:14px">רחב מדי. אין משתמש, אין מסכים, אין גבולות.</p>
+        </article>
+        <article class="prompt-card good">
+          <div class="label">פרומפט טוב</div>
+          <p class="quote">אני בונה MVP לפרילנסרים: להוסיף הכנסה, להוסיף הוצאה ולראות סיכום חודשי. הצע User Flow ושלושה מסכים ראשונים. בלי פיצ׳רים מתקדמים.</p>
+          <p style="margin-top:14px">יש משתמש, מטרה, גבולות ותוצר ברור.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="ethics" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">06 · אחריות</div>
+          <h2>מוצר טוב מכבד משתמשים</h2>
+          <p class="section-lead">גם מוצר קטן משפיע על אנשים. אמון הוא לא שכבת עיצוב, הוא החלטה מוצרית.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="ethics-card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 3 5 6v6c0 5 3.5 8 7 9 3.5-1 7-4 7-9V6l-7-3Z"></path>
+            </svg>
+          </span>
+          <div>
+            <h3>פרטיות</h3>
+            <p>לא אוספים דאטה שלא באמת צריך, ולא מסתירים מה עושים איתו.</p>
+          </div>
+        </article>
+        <article class="ethics-card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 12h16"></path>
+              <path d="m14 6 6 6-6 6"></path>
+              <path d="M4 7v10"></path>
+            </svg>
+          </span>
+          <div>
+            <h3>בלי Dark Patterns</h3>
+            <p>לא דוחפים משתמש לפעולה שמשרתת את המוצר אבל פוגעת בו.</p>
+          </div>
+        </article>
+        <article class="ethics-card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"></path>
+            </svg>
+          </span>
+          <div>
+            <h3>שקיפות</h3>
+            <p>מידע חשוב צריך להיות ברור בזמן הנכון, לא קבור באותיות קטנות.</p>
+          </div>
+        </article>
+        <article class="ethics-card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M8 12h8"></path>
+              <path d="M12 8v8"></path>
+            </svg>
+          </span>
+          <div>
+            <h3>נגישות</h3>
+            <p>ממשק צריך להיות שימושי גם למי שקורא לאט, מנווט אחרת או צריך יותר בהירות.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="process" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">07 · תהליך</div>
+          <h2>סדר עבודה פשוט</h2>
+          <p class="section-lead">לא בונים הכול ביום הראשון. בונים משהו קטן שאפשר ללמוד ממנו.</p>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item"><div><b>להבין בעיה</b><span>לנסח מה באמת מפריע למשתמש.</span></div></div>
+        <div class="timeline-item"><div><b>להגדיר משתמש</b><span>לבחור למי בונים קודם.</span></div></div>
+        <div class="timeline-item"><div><b>לכתוב User Flow</b><span>לשרטט את הדרך המרכזית במוצר.</span></div></div>
+        <div class="timeline-item"><div><b>לשרטט מסכים</b><span>להפוך את הזרימה למסכים פשוטים.</span></div></div>
+        <div class="timeline-item"><div><b>להחליט MVP</b><span>להשאיר רק מה שחייבים כדי לבדוק ערך.</span></div></div>
+        <div class="timeline-item"><div><b>לבנות Prototype</b><span>ליצור דגם ראשוני שאפשר להראות.</span></div></div>
+        <div class="timeline-item"><div><b>לבדוק עם אנשים</b><span>לקבל תגובה אמיתית, לא רק תחושת בטן.</span></div></div>
+        <div class="timeline-item"><div><b>לתקן לפי פידבק</b><span>לשפר את מה שמבלבל או לא עובד.</span></div></div>
+        <div class="timeline-item"><div><b>להעלות לאוויר</b><span>לתת למשתמשים אמיתיים לנסות.</span></div></div>
+        <div class="timeline-item"><div><b>לשפר בהדרגה</b><span>להתקדם לפי למידה, לא לפי רעש.</span></div></div>
+      </div>
+    </section>
+
+    <section class="shell section" id="terms" data-section>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">08 · מילון</div>
+          <h2>25 המושגים הראשונים</h2>
+          <p class="section-lead">חפש, סנן ולחץ על מושג כדי לראות דוגמה קצרה.</p>
+        </div>
+      </div>
+
+      <div class="terms-toolbar">
+        <label class="search-wrap" for="termSearch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <input id="termSearch" type="search" placeholder="חיפוש מושג..." autocomplete="off">
+        </label>
+        <div class="filter-pills" aria-label="סינון מושגים">
+          <button type="button" class="active" data-filter="all">הכול</button>
+          <button type="button" data-filter="product">מוצר</button>
+          <button type="button" data-filter="design">עיצוב</button>
+          <button type="button" data-filter="tech">טכני</button>
+          <button type="button" data-filter="ai">AI</button>
+        </div>
+      </div>
+
+      <div class="terms-grid" id="termsGrid" aria-live="polite"></div>
+
+      <div class="completion">
+        <div>
+          <h2>הבסיס הוא חשיבה ברורה</h2>
+          <p>בילדר טוב יודע להבין בעיה, לפרק אותה נכון, לבנות קטן, לבדוק מהר ולשפר.</p>
+        </div>
+        <a class="pill-button" href="#top">חזרה להתחלה</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="termModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitle"></h3>
+        <button class="icon-button" type="button" id="closeModal" aria-label="סגירת חלון">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p id="modalDescription"></p>
+      <div class="example-box" id="modalExample"></div>
+    </div>
+  </div>
+
+  <script>
+    const terms = [
+      { name: "Product Thinking", group: "product", desc: "חשיבה על בעיה, משתמש ופתרון לפני בנייה.", example: "לפני שמוסיפים כפתור, שואלים איזו בעיה הוא פותר." },
+      { name: "User", group: "product", desc: "האדם שמשתמש במוצר.", example: "פרילנסר שמנהל לקוחות ותשלומים." },
+      { name: "Problem", group: "product", desc: "הבעיה שהמוצר מנסה לפתור.", example: "אין דרך פשוטה לדעת אילו לקוחות חייבים כסף." },
+      { name: "Pain Point", group: "product", desc: "נקודת כאב שמפריעה למשתמש.", example: "המשתמש מבזבז שעה בשבוע על מעקב ידני." },
+      { name: "MVP", group: "product", desc: "גרסה מינימלית שאפשר לבדוק.", example: "רק יצירת לקוח, הוספת חיוב וסימון שולם." },
+      { name: "Prototype", group: "product", desc: "דגם ראשוני של המוצר.", example: "מסכים לחיצים לפני שיש קוד אמיתי." },
+      { name: "User Flow", group: "product", desc: "המסלול שהמשתמש עובר במוצר.", example: "כניסה → יצירת פרויקט → שליחת הזמנה." },
+      { name: "Feature", group: "product", desc: "יכולת אחת בתוך המוצר.", example: "תזכורת אוטומטית לפני פגישה." },
+      { name: "Scope", group: "product", desc: "גבולות העבודה או הגרסה.", example: "בגרסה הראשונה אין דוחות מתקדמים." },
+      { name: "UX", group: "design", desc: "חוויית השימוש במוצר.", example: "המשתמש מבין מה לעשות בלי הסבר." },
+      { name: "UI", group: "design", desc: "הנראות של הממשק.", example: "צבעים, כפתורים, טקסטים וריווחים." },
+      { name: "CTA", group: "design", desc: "פעולה מרכזית שהמשתמש מתבקש לעשות.", example: "כפתור “המשך לתשלום” במסך קופה." },
+      { name: "Frontend", group: "tech", desc: "החלק הוויזואלי שהמשתמש רואה.", example: "המסך עם טופס ההרשמה." },
+      { name: "Backend", group: "tech", desc: "החלק הלוגי שפועל מאחורי הקלעים.", example: "בדיקה אם הסיסמה נכונה." },
+      { name: "Database", group: "tech", desc: "מקום לשמירת מידע.", example: "טבלה של משתמשים, הזמנות ותשלומים." },
+      { name: "Data", group: "tech", desc: "המידע שהמוצר אוסף או מציג.", example: "שם לקוח, סטטוס תשלום ותאריך יצירה." },
+      { name: "API", group: "tech", desc: "חיבור תקשורת בין מערכות.", example: "שליחת פרטי תשלום לשירות סליקה." },
+      { name: "Prompt", group: "ai", desc: "הוראה ל-AI.", example: "“כתוב User Flow קצר לאפליקציית פגישות.”" },
+      { name: "Debug", group: "ai", desc: "איתור ותיקון בעיות.", example: "הכפתור לא עובד, אז בודקים איפה הזרימה נשברת." },
+      { name: "Deploy", group: "tech", desc: "העלאת המוצר לאוויר.", example: "פרסום הגרסה כך שחברים יוכלו לפתוח קישור." },
+      { name: "Hosting", group: "tech", desc: "המקום שבו המוצר מאוחסן ורץ.", example: "שרת שמגיש את האתר למשתמשים." },
+      { name: "GitHub", group: "tech", desc: "כלי לשמירת וניהול קוד.", example: "מקום שבו נשמרת ההיסטוריה של הפרויקט." },
+      { name: "Feedback", group: "product", desc: "תגובות ממשתמשים או בודקים.", example: "“לא הבנתי איפה מוסיפים לקוח.”" },
+      { name: "Iteration", group: "product", desc: "שיפור חוזר על בסיס למידה.", example: "משנים את המסך אחרי בדיקה עם שלושה אנשים." },
+      { name: "KPI", group: "product", desc: "מדד שמראה אם המוצר מתקדם למטרה.", example: "כמה משתמשים סיימו הרשמה בהצלחה." }
+    ];
+
+    const groupLabels = {
+      product: "מוצר",
+      design: "עיצוב",
+      tech: "טכני",
+      ai: "AI"
+    };
+
+    const termsGrid = document.querySelector("#termsGrid");
+    const termSearch = document.querySelector("#termSearch");
+    const filterButtons = [...document.querySelectorAll("[data-filter]")];
+    const modal = document.querySelector("#termModal");
+    const modalTitle = document.querySelector("#modalTitle");
+    const modalDescription = document.querySelector("#modalDescription");
+    const modalExample = document.querySelector("#modalExample");
+    const closeModal = document.querySelector("#closeModal");
+    let activeFilter = "all";
+
+    function renderTerms() {
+      const query = termSearch.value.trim().toLowerCase();
+      const filtered = terms.filter((term) => {
+        const matchesFilter = activeFilter === "all" || term.group === activeFilter;
+        const matchesQuery = [term.name, term.desc, groupLabels[term.group]]
+          .join(" ")
+          .toLowerCase()
+          .includes(query);
+        return matchesFilter && matchesQuery;
+      });
+
+      termsGrid.innerHTML = "";
+
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "lesson-card";
+        empty.textContent = "לא נמצאו מושגים מתאימים.";
+        termsGrid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach((term) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "term-card";
+        card.innerHTML = `
+          <b>${term.name}</b>
+          <span>${term.desc}</span>
+          <small>${groupLabels[term.group]} · דוגמה</small>
+        `;
+        card.addEventListener("click", () => openTerm(term));
+        termsGrid.appendChild(card);
+      });
+    }
+
+    function openTerm(term) {
+      modalTitle.textContent = term.name;
+      modalDescription.textContent = term.desc;
+      modalExample.textContent = `דוגמה: ${term.example}`;
+      modal.classList.add("open");
+      closeModal.focus();
+    }
+
+    function hideModal() {
+      modal.classList.remove("open");
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+        renderTerms();
+      });
+    });
+
+    termSearch.addEventListener("input", renderTerms);
+    closeModal.addEventListener("click", hideModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) hideModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") hideModal();
+    });
+
+    document.querySelectorAll("[data-accordion]").forEach((accordion) => {
+      accordion.querySelectorAll(".accordion-item").forEach((item) => {
+        const trigger = item.querySelector(".accordion-trigger");
+        const panel = item.querySelector(".accordion-panel");
+
+        function setHeight() {
+          panel.style.maxHeight = item.classList.contains("open")
+            ? `${panel.scrollHeight}px`
+            : "0px";
+        }
+
+        trigger.addEventListener("click", () => {
+          item.classList.toggle("open");
+          setHeight();
+        });
+
+        setHeight();
+        window.addEventListener("resize", setHeight);
+      });
+    });
+
+    const pageProgress = document.querySelector("#pageProgress");
+    const readMeter = document.querySelector("#readMeter");
+    const readPercent = document.querySelector("#readPercent");
+    const navLinks = [...document.querySelectorAll("#chapterNav a")];
+    const sections = [...document.querySelectorAll("[data-section]")];
+
+    function updateProgress() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100)) : 0;
+      pageProgress.style.width = `${progress}%`;
+      readMeter.style.width = `${progress}%`;
+      readPercent.textContent = `${Math.round(progress)}%`;
+
+      let current = sections[0]?.id;
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 140) current = section.id;
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+      });
+    }
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    renderTerms();
+    updateProgress();
+  </script>
+</body>
+</html>
