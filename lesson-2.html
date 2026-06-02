@@ -1,0 +1,1525 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>שיעור 2: מבילדר מתחיל לבילדר מוצר</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f5f7;
+      --paper: rgba(255, 255, 255, 0.78);
+      --paper-solid: #fff;
+      --ink: #1d1d1f;
+      --muted: #6e6e73;
+      --line: rgba(29, 29, 31, 0.12);
+      --line-strong: rgba(29, 29, 31, 0.2);
+      --blue: #0071e3;
+      --blue-soft: rgba(0, 113, 227, 0.1);
+      --teal: #0f766e;
+      --teal-soft: rgba(15, 118, 110, 0.1);
+      --rose: #b42318;
+      --rose-soft: rgba(180, 35, 24, 0.09);
+      --amber: #9a5b00;
+      --amber-soft: rgba(154, 91, 0, 0.1);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.08);
+      --r-lg: 28px;
+      --r-md: 18px;
+      --r-sm: 12px;
+      --max: 1160px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 30rem),
+        radial-gradient(circle at 10% 8%, rgba(0, 113, 227, 0.12), transparent 26rem),
+        linear-gradient(180deg, #fff 0%, var(--bg) 48%, #fff 100%);
+      line-height: 1.55;
+    }
+
+    button,
+    input,
+    textarea { font: inherit; }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: 4px;
+      background: transparent;
+    }
+
+    .progress span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      transition: width 120ms ease;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 12px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 12px auto 0;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 12px 44px rgba(0, 0, 0, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      padding-inline: 8px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.8;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 2px;
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 0.92rem;
+      transition: color 180ms ease, background 180ms ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+      gap: 26px;
+      align-items: stretch;
+      padding: 72px 0 28px;
+    }
+
+    .hero-copy {
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(28px, 6vw, 72px);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255, 255, 255, 0.58);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin: 0 0 18px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3,
+    p { margin-top: 0; }
+
+    h1 {
+      max-width: 900px;
+      margin-bottom: 20px;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 10px 17px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .pill.primary {
+      border-color: transparent;
+      background: var(--ink);
+      color: #fff;
+      box-shadow: 0 12px 34px rgba(29, 29, 31, 0.18);
+    }
+
+    .pill:hover { transform: translateY(-1px); }
+
+    .hero-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .glass,
+    .card,
+    .metric,
+    .accordion-item,
+    .term-card,
+    .canvas-card,
+    .prompt-output,
+    .check-card,
+    .decision-card {
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      background: var(--paper);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 44px rgba(0, 0, 0, 0.045);
+    }
+
+    .glass {
+      padding: 22px;
+    }
+
+    .glass b {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .glass span {
+      color: var(--muted);
+    }
+
+    main { padding-bottom: 82px; }
+
+    .section {
+      scroll-margin-top: 96px;
+      padding: 44px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(260px, 0.48fr);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--teal);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    .section h2 {
+      margin-bottom: 8px;
+      font-size: clamp(2rem, 4vw, 3.45rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .mini-meter {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .mini-meter div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .mini-meter .track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(29, 29, 31, 0.08);
+    }
+
+    .mini-meter .track span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--teal);
+      transition: width 200ms ease;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 22px;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .icon {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 14px;
+      border-radius: 50%;
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .card h3,
+    .metric h3,
+    .canvas-card h3,
+    .decision-card h3,
+    .check-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.18rem;
+    }
+
+    .card p,
+    .metric p,
+    .canvas-card p,
+    .decision-card p,
+    .check-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .accordion {
+      display: grid;
+      gap: 10px;
+    }
+
+    .accordion-item {
+      overflow: hidden;
+    }
+
+    .accordion-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      min-height: 64px;
+      padding: 16px 18px;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: right;
+    }
+
+    .accordion-trigger b { font-size: 1.04rem; }
+
+    .chevron {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(29, 29, 31, 0.06);
+      color: var(--muted);
+      transition: transform 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    .accordion-item.open .chevron {
+      transform: rotate(180deg);
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 260ms ease;
+    }
+
+    .accordion-content {
+      padding: 0 18px 18px;
+      color: var(--muted);
+    }
+
+    .canvas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .canvas-card {
+      min-height: 168px;
+      padding: 20px;
+    }
+
+    .canvas-card small {
+      display: inline-flex;
+      margin-bottom: 18px;
+      color: var(--teal);
+      font-weight: 800;
+    }
+
+    .tabs {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tab-list {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      scrollbar-width: none;
+    }
+
+    .tab-list::-webkit-scrollbar { display: none; }
+
+    .tab-list button {
+      min-height: 36px;
+      padding: 7px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab-list button.active {
+      border-color: transparent;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .tab-panel.active { display: block; }
+
+    .tab-panel h3 { margin-bottom: 10px; }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+    }
+
+    .mini-table th {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .mini-table tr:last-child td { border-bottom: 0; }
+
+    .metric {
+      padding: 20px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .metric.product { background: var(--blue-soft); }
+    .metric.learning { background: var(--teal-soft); }
+    .metric.risk { background: var(--amber-soft); }
+
+    .prompt-builder {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(300px, 1.08fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .prompt-form,
+    .prompt-output {
+      padding: 22px;
+    }
+
+    .prompt-form {
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      outline: 0;
+      padding: 12px 13px;
+      background: #fff;
+      color: var(--ink);
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(15, 118, 110, 0.5);
+      box-shadow: 0 0 0 4px var(--teal-soft);
+    }
+
+    .prompt-output {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+    }
+
+    .prompt-output pre {
+      margin: 0;
+      white-space: pre-wrap;
+      color: var(--ink);
+      font-family: inherit;
+    }
+
+    .copy-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      background: rgba(255, 255, 255, 0.72);
+      cursor: pointer;
+    }
+
+    .check-row input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--teal);
+    }
+
+    .check-row span {
+      color: var(--muted);
+    }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .decision-card {
+      padding: 22px;
+    }
+
+    .decision-card[data-level="must"] { background: var(--teal-soft); }
+    .decision-card[data-level="should"] { background: var(--blue-soft); }
+    .decision-card[data-level="later"] { background: var(--amber-soft); }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 180px;
+      padding: 0 12px;
+    }
+
+    .search input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .filters {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filters button {
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filters button.active {
+      border-color: transparent;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .terms-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .term-card {
+      min-height: 142px;
+      padding: 17px;
+      cursor: pointer;
+      text-align: right;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .term-card:hover,
+    .term-card:focus {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      background: var(--paper-solid);
+      outline: none;
+    }
+
+    .term-card b {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .term-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .term-card small {
+      display: block;
+      margin-top: 14px;
+      color: var(--teal);
+      font-weight: 800;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal.open { display: grid; }
+
+    .modal-card {
+      width: min(560px, 100%);
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255, 255, 255, 0.93);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 1.55rem;
+    }
+
+    .icon-button {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .modal-card p { color: var(--muted); }
+
+    .example {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: var(--r-sm);
+      background: var(--teal-soft);
+    }
+
+    .finish {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(240px, 0.22fr);
+      gap: 18px;
+      align-items: center;
+      margin-top: 36px;
+      padding: clamp(24px, 5vw, 44px);
+      border-radius: var(--r-lg);
+      background: var(--ink);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .finish p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .finish h2 {
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+    }
+
+    .finish .pill {
+      justify-self: end;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-head,
+      .prompt-builder,
+      .finish {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy { min-height: auto; }
+
+      .grid-3,
+      .canvas-grid,
+      .terms-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .decision-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .finish .pill { justify-self: start; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+        border-radius: 24px;
+      }
+
+      .hero { padding-top: 42px; }
+      .hero-copy { padding: 28px; }
+
+      h1 {
+        font-size: clamp(2.55rem, 14vw, 4.2rem);
+      }
+
+      .grid-2,
+      .grid-3,
+      .canvas-grid,
+      .terms-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        border-radius: 24px;
+      }
+
+      .mini-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="pageProgress"></span></div>
+
+  <header class="topbar" aria-label="ניווט פנימי">
+    <a class="brand" href="#top" aria-label="חזרה לראש העמוד">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M4 5h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 19h10"></path>
+        </svg>
+      </span>
+      <span>Builder 102</span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#prd">PRD</a>
+      <a href="#scope">Scope</a>
+      <a href="#stories">Stories</a>
+      <a href="#system">System</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#ai">AI</a>
+      <a href="#launch">Launch</a>
+      <a href="#terms">מושגים</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="shell hero">
+      <div class="hero-copy">
+        <p class="eyebrow">
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 19.5V5a2 2 0 0 1 2-2h10l4 4v12.5a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1-.5-.5Z"></path>
+              <path d="M15 3v5h5"></path>
+            </svg>
+          </span>
+          שיעור 2 · המשך למדריך הבסיס
+        </p>
+        <h1>מבונה מסכים לבונה מוצר.</h1>
+        <p>
+          עכשיו עוברים שלב: איך מגדירים דרישות, מצמצמים Scope, חושבים על דאטה,
+          מודדים הצלחה, עובדים עם AI בצורה חכמה ומעלים גרסה ראשונה בביטחון.
+        </p>
+        <div class="actions">
+          <a class="pill primary" href="#prd">
+            להתחיל שיעור 2
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </a>
+          <a class="pill" href="index.html">חזרה לשיעור 1</a>
+        </div>
+      </div>
+
+      <aside class="hero-stack" aria-label="מה יש בשיעור">
+        <div class="glass">
+          <b>מהרעיון למסמך עבודה</b>
+          <span>PRD קצר, User Stories וקריטריונים ברורים.</span>
+        </div>
+        <div class="glass">
+          <b>מהמסכים למערכת</b>
+          <span>דאטה, הרשאות, API, אינטגרציות ומצבי קצה.</span>
+        </div>
+        <div class="glass">
+          <b>מההשקה ללמידה</b>
+          <span>KPI, אירועי אנליטיקה, פידבק ואיטרציה.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shell section" id="prd" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">01 · PRD</div>
+          <h2>להפוך רעיון למסמך עבודה</h2>
+          <p class="lead">PRD הוא לא מסמך ארוך. לבילדר מתחיל הוא דף אחד שמיישר את כולם סביב מה בונים ולמה.</p>
+        </div>
+        <div class="mini-meter">
+          <div><span>התקדמות קריאה</span><b id="readPercent">0%</b></div>
+          <span class="track"><span id="readMeter"></span></span>
+        </div>
+      </div>
+
+      <div class="canvas-grid">
+        <article class="canvas-card">
+          <small>1</small>
+          <h3>מטרה</h3>
+          <p>מה המשתמש יצליח לעשות אחרי שהמוצר עובד?</p>
+        </article>
+        <article class="canvas-card">
+          <small>2</small>
+          <h3>משתמש</h3>
+          <p>למי בונים עכשיו, ולא למי אולי נבנה בעתיד?</p>
+        </article>
+        <article class="canvas-card">
+          <small>3</small>
+          <h3>הצלחה</h3>
+          <p>איזה סימן יראה שהפתרון באמת עובד?</p>
+        </article>
+        <article class="canvas-card">
+          <small>4</small>
+          <h3>גבולות</h3>
+          <p>מה לא נכנס לגרסה הזו, גם אם הוא רעיון טוב?</p>
+        </article>
+      </div>
+
+      <div class="tabs section" data-tabs style="padding-bottom:0">
+        <div class="tab-list" role="tablist" aria-label="חלקי PRD">
+          <button type="button" class="active" data-tab="goal">מטרה</button>
+          <button type="button" data-tab="user">משתמש</button>
+          <button type="button" data-tab="success">מדד הצלחה</button>
+          <button type="button" data-tab="risk">סיכון</button>
+        </div>
+        <div class="tab-panel active" data-panel="goal">
+          <h3>מטרה טובה</h3>
+          <p>משפט אחד שמגדיר תוצאה, לא פיצ׳ר. לדוגמה: “לעזור לפרילנסר להבין תוך דקה מי חייב לו כסף”.</p>
+        </div>
+        <div class="tab-panel" data-panel="user">
+          <h3>משתמש ברור</h3>
+          <p>לא “עסקים קטנים”. כן: “פרילנסר יחיד שמנהל 5-20 לקוחות בחודש”.</p>
+        </div>
+        <div class="tab-panel" data-panel="success">
+          <h3>מדד הצלחה</h3>
+          <p>דבר שאפשר לבדוק. למשל: 70% מהבודקים מצליחים ליצור לקוח וחיוב בלי עזרה.</p>
+        </div>
+        <div class="tab-panel" data-panel="risk">
+          <h3>סיכון מרכזי</h3>
+          <p>מה עלול להפיל את הרעיון? למשל: המשתמשים לא רוצים להזין נתונים ידנית.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="scope" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">02 · Scope</div>
+          <h2>להחליט מה נכנס עכשיו</h2>
+          <p class="lead">היכולת הכי חשובה בשיעור הזה היא לא להוסיף. היא לבחור מה מספיק טוב כדי ללמוד.</p>
+        </div>
+      </div>
+
+      <div class="decision-grid">
+        <article class="decision-card" data-level="must">
+          <h3>Must</h3>
+          <p>חייב להיות כדי לבדוק את הערך המרכזי. בלי זה אין מוצר.</p>
+        </article>
+        <article class="decision-card" data-level="should">
+          <h3>Should</h3>
+          <p>משפר מאוד את החוויה, אבל אפשר לבדוק גם בלעדיו.</p>
+        </article>
+        <article class="decision-card" data-level="later">
+          <h3>Later</h3>
+          <p>רעיון טוב שמחכה עד שיש הוכחה שהכיוון נכון.</p>
+        </article>
+      </div>
+
+      <div class="section" style="padding-bottom:0">
+        <table class="mini-table" aria-label="דוגמת Scope">
+          <thead>
+            <tr>
+              <th>רעיון</th>
+              <th>החלטה</th>
+              <th>למה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>הוספת לקוח</td>
+              <td>Must</td>
+              <td>בלי זה אין דרך לבדוק את המוצר.</td>
+            </tr>
+            <tr>
+              <td>סינון לפי חודש</td>
+              <td>Should</td>
+              <td>נוח, אבל לא הכרחי לגרסה ראשונה.</td>
+            </tr>
+            <tr>
+              <td>דוחות PDF</td>
+              <td>Later</td>
+              <td>מורכב מדי לפני שיש שימוש אמיתי.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="shell section" id="stories" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">03 · User Stories</div>
+          <h2>לכתוב דרישות שאפשר לבנות</h2>
+          <p class="lead">User Story מתארת צורך מנקודת המבט של המשתמש. Acceptance Criteria מגדירים מתי זה עובד.</p>
+        </div>
+      </div>
+
+      <div class="accordion" data-accordion>
+        <article class="accordion-item open">
+          <button class="accordion-trigger" type="button">
+            <b>תבנית User Story</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">כמשתמש, אני רוצה לעשות פעולה מסוימת, כדי להשיג תוצאה ברורה.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>דוגמה</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">כפרילנסר, אני רוצה לסמן חיוב כ״שולם״, כדי לדעת מי עדיין חייב לי כסף.</div>
+          </div>
+        </article>
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button">
+            <b>Acceptance Criteria</b>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-content">המשתמש רואה סטטוס, יכול לשנות אותו, והסיכום מתעדכן מיד. זהו מבחן פשוט: האם הפיצ׳ר עובד?</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="system" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">04 · System View</div>
+          <h2>לראות את המוצר כמערכת</h2>
+          <p class="lead">אחרי שיש מסכים, צריך להבין איזה מידע זורם ביניהם ומה חייב לקרות מאחורי הקלעים.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 7c0-2 4-3 8-3s8 1 8 3-4 3-8 3-8-1-8-3Z"></path>
+              <path d="M4 7v10c0 2 4 3 8 3s8-1 8-3V7"></path>
+              <path d="M4 12c0 2 4 3 8 3s8-1 8-3"></path>
+            </svg>
+          </span>
+          <h3>Data Model</h3>
+          <p>רשימת הדברים שהמוצר שומר והקשרים ביניהם: משתמש, לקוח, חיוב, סטטוס.</p>
+        </article>
+        <article class="card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 12h16"></path>
+              <path d="m14 6 6 6-6 6"></path>
+              <path d="M4 7v10"></path>
+            </svg>
+          </span>
+          <h3>API Contract</h3>
+          <p>הסכמה פשוטה: איזה מידע נשלח, מה חוזר, ומה קורה אם יש שגיאה.</p>
+        </article>
+        <article class="card">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 3 5 6v6c0 5 3.5 8 7 9 3.5-1 7-4 7-9V6l-7-3Z"></path>
+              <path d="M9.5 12.5 11 14l4-4"></path>
+            </svg>
+          </span>
+          <h3>Permissions</h3>
+          <p>מי רשאי לראות, לערוך או למחוק מידע. זה חשוב גם במוצר קטן.</p>
+        </article>
+      </div>
+
+      <div class="section" style="padding-bottom:0">
+        <table class="mini-table" aria-label="שאלות מערכת">
+          <thead>
+            <tr>
+              <th>שאלה</th>
+              <th>למה היא חשובה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>איפה המידע נשמר?</td>
+              <td>כדי לא לאבד דאטה ולדעת מה צריך Database.</td>
+            </tr>
+            <tr>
+              <td>מה קורה אם הפעולה נכשלת?</td>
+              <td>כדי לתכנן Error State ולא להשאיר משתמש תקוע.</td>
+            </tr>
+            <tr>
+              <td>איזו פעולה צריך למדוד?</td>
+              <td>כדי ללמוד אם המשתמש באמת מתקדם.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="shell section" id="metrics" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">05 · Metrics</div>
+          <h2>למדוד בלי לטבוע במספרים</h2>
+          <p class="lead">מדד טוב עוזר לקבל החלטה. לא מודדים הכול. מודדים את מה שמראה אם יש ערך.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="metric product">
+          <strong>Activation</strong>
+          <h3>המשתמש התחיל לקבל ערך</h3>
+          <p>למשל: יצר לקוח ראשון והוסיף חיוב ראשון.</p>
+        </article>
+        <article class="metric learning">
+          <strong>Retention</strong>
+          <h3>המשתמש חזר</h3>
+          <p>אם הוא חוזר, כנראה שהמוצר פותר משהו אמיתי.</p>
+        </article>
+        <article class="metric risk">
+          <strong>Conversion</strong>
+          <h3>המשתמש השלים פעולה</h3>
+          <p>למשל: סיים הרשמה, שלח הזמנה או שילם.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="ai" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">06 · AI Workflow</div>
+          <h2>לתת ל־AI תפקיד מדויק</h2>
+          <p class="lead">בשיעור 2 לא מבקשים “תבנה הכול”. מבקשים ממנו לפרק, לבדוק, לשאול ולחדד.</p>
+        </div>
+      </div>
+
+      <div class="prompt-builder">
+        <div class="prompt-form">
+          <div class="field">
+            <label for="productInput">מה המוצר?</label>
+            <input id="productInput" value="מוצר לפרילנסרים שמנהלים חיובים ותשלומים">
+          </div>
+          <div class="field">
+            <label for="userInput">מי המשתמש?</label>
+            <input id="userInput" value="פרילנסר יחיד עם 5-20 לקוחות בחודש">
+          </div>
+          <div class="field">
+            <label for="goalInput">מה המטרה?</label>
+            <textarea id="goalInput" rows="3">לעזור לו להבין תוך דקה מי שילם ומי עדיין חייב כסף</textarea>
+          </div>
+          <button class="pill primary" type="button" id="buildPrompt">בנה פרומפט עבודה</button>
+        </div>
+
+        <div class="prompt-output" aria-live="polite">
+          <h3>פרומפט מתקדם</h3>
+          <pre id="promptResult"></pre>
+          <span class="copy-note">אפשר לערוך את השדות ולייצר גרסה חדשה.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="launch" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">07 · Launch</div>
+          <h2>לפני שמעלים לאוויר</h2>
+          <p class="lead">השקה טובה היא לא טקס. היא בדיקת מציאות קטנה עם משתמשים אמיתיים.</p>
+        </div>
+      </div>
+
+      <div class="check-card" style="padding:22px">
+        <h3>צ׳קליסט קצר</h3>
+        <p style="margin-bottom:16px">סמן מה מוכן. זה לא מחליף QA מלא, אבל כן מונע טעויות בסיסיות.</p>
+        <div class="checklist" id="launchChecklist">
+          <label class="check-row"><input type="checkbox"><span>המשתמש יכול להשלים את ה־User Flow המרכזי.</span></label>
+          <label class="check-row"><input type="checkbox"><span>יש Loading, Error, Empty ו-Success States במקומות החשובים.</span></label>
+          <label class="check-row"><input type="checkbox"><span>הטקסטים במסכים ברורים ולא טכניים מדי.</span></label>
+          <label class="check-row"><input type="checkbox"><span>לא נאסף דאטה שלא צריך.</span></label>
+          <label class="check-row"><input type="checkbox"><span>יש דרך פשוטה לקבל פידבק ממשתמשים.</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="terms" data-section>
+      <div class="section-head">
+        <div>
+          <div class="kicker">08 · מושגים מתקדמים</div>
+          <h2>המילון של שיעור 2</h2>
+          <p class="lead">מושגים שיעזרו לך לדבר ברור יותר כשאתה מתכנן, בונה ומשיק מוצר.</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label class="search" for="termSearch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <input id="termSearch" type="search" placeholder="חיפוש מושג..." autocomplete="off">
+        </label>
+        <div class="filters" aria-label="סינון מושגים">
+          <button type="button" class="active" data-filter="all">הכול</button>
+          <button type="button" data-filter="product">מוצר</button>
+          <button type="button" data-filter="system">מערכת</button>
+          <button type="button" data-filter="quality">איכות</button>
+          <button type="button" data-filter="data">דאטה</button>
+        </div>
+      </div>
+
+      <div class="terms-grid" id="termsGrid" aria-live="polite"></div>
+
+      <div class="finish">
+        <div>
+          <h2>עכשיו אתה בונה עם כוונה</h2>
+          <p>שיעור 2 נותן לך דרך לחשוב כמו בילדר מוצר: להגדיר, לצמצם, למדוד, להשיק וללמוד.</p>
+        </div>
+        <a class="pill" href="index.html">חזרה לשיעור 1</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="termModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitle"></h3>
+        <button class="icon-button" type="button" id="closeModal" aria-label="סגירת חלון">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p id="modalDesc"></p>
+      <div class="example" id="modalExample"></div>
+    </div>
+  </div>
+
+  <script>
+    const terms = [
+      { name: "PRD", group: "product", desc: "מסמך קצר שמגדיר מה בונים, למי ולמה.", example: "דף אחד עם מטרה, משתמש, Scope ומדד הצלחה." },
+      { name: "User Story", group: "product", desc: "דרישה מנקודת המבט של המשתמש.", example: "כפרילנסר, אני רוצה לסמן חיוב כשולם." },
+      { name: "Acceptance Criteria", group: "quality", desc: "תנאים שמגדירים מתי פיצ׳ר נחשב עובד.", example: "הסטטוס משתנה והסיכום מתעדכן מיד." },
+      { name: "Prioritization", group: "product", desc: "בחירה מה חשוב עכשיו ומה יחכה.", example: "דוחות PDF עוברים לגרסה הבאה." },
+      { name: "Trade-off", group: "product", desc: "בחירה שמרוויחה משהו ומוותרת על משהו אחר.", example: "פחות פיצ׳רים עכשיו כדי להשיק מהר יותר." },
+      { name: "Product Requirement", group: "product", desc: "דרישה שמתארת יכולת או התנהגות במוצר.", example: "משתמש יכול למחוק חיוב רק אחרי אישור." },
+      { name: "Edge Case", group: "quality", desc: "מצב פחות נפוץ שעדיין צריך לחשוב עליו.", example: "מה קורה אם אין חיבור לאינטרנט בזמן שמירה?" },
+      { name: "QA", group: "quality", desc: "בדיקה שהמוצר עובד כמו שהתכוונו.", example: "לעבור על User Flow לפני השקה." },
+      { name: "Release", group: "product", desc: "גרסה של המוצר שיוצאת למשתמשים.", example: "גרסה ראשונה עם שלושה פיצ׳רים בלבד." },
+      { name: "Roadmap", group: "product", desc: "תוכנית התפתחות של המוצר לאורך זמן.", example: "MVP עכשיו, דוחות בעוד חודש." },
+      { name: "Data Model", group: "system", desc: "המבנה של המידע שהמוצר שומר.", example: "משתמש → לקוחות → חיובים." },
+      { name: "Entity", group: "system", desc: "אובייקט מרכזי שהמערכת שומרת.", example: "לקוח, פרויקט, הזמנה או תשלום." },
+      { name: "Permission", group: "system", desc: "הגדרה של מי יכול לעשות מה.", example: "רק בעל החשבון יכול למחוק פרויקט." },
+      { name: "Auth", group: "system", desc: "התחברות וזיהוי משתמש.", example: "כניסה עם אימייל וסיסמה." },
+      { name: "API Contract", group: "system", desc: "הסכמה על המידע שעובר בין Frontend ל-Backend.", example: "שליחת customerId וקבלת סטטוס חיוב." },
+      { name: "Integration", group: "system", desc: "חיבור לשירות חיצוני.", example: "חיבור לסליקה, אימייל או CRM." },
+      { name: "Analytics Event", group: "data", desc: "פעולה שנמדדת כדי ללמוד על שימוש.", example: "user_created_invoice." },
+      { name: "Activation", group: "data", desc: "הרגע שבו המשתמש מתחיל לקבל ערך.", example: "יצר לקוח וחיוב ראשון." },
+      { name: "Retention", group: "data", desc: "היכולת לגרום למשתמש לחזור.", example: "משתמש שחזר אחרי שבוע." },
+      { name: "Conversion", group: "data", desc: "השלמת פעולה חשובה.", example: "סיום הרשמה או תשלום." },
+      { name: "Funnel", group: "data", desc: "רצף שלבים שמוביל לפעולה.", example: "כניסה → הרשמה → יצירת פרויקט." },
+      { name: "Beta", group: "product", desc: "גרסה מוקדמת לבדיקה עם קבוצה קטנה.", example: "10 חברים בודקים לפני פרסום רחב." },
+      { name: "Feedback Loop", group: "product", desc: "מעגל של בדיקה, פידבק ושיפור.", example: "מראים, מקשיבים, משנים ובודקים שוב." },
+      { name: "Technical Debt", group: "quality", desc: "פשרות טכניות שעלולות להקשות בהמשך.", example: "פתרון מהיר שעובד עכשיו אבל קשה להרחיב." }
+    ];
+
+    const groupLabels = {
+      product: "מוצר",
+      system: "מערכת",
+      quality: "איכות",
+      data: "דאטה"
+    };
+
+    const pageProgress = document.querySelector("#pageProgress");
+    const readMeter = document.querySelector("#readMeter");
+    const readPercent = document.querySelector("#readPercent");
+    const sections = [...document.querySelectorAll("[data-section]")];
+    const navLinks = [...document.querySelectorAll("#nav a")];
+
+    function updateProgress() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100)) : 0;
+      pageProgress.style.width = `${progress}%`;
+      readMeter.style.width = `${progress}%`;
+      readPercent.textContent = `${Math.round(progress)}%`;
+
+      let current = sections[0]?.id;
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) current = section.id;
+      });
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+      });
+    }
+
+    document.querySelectorAll("[data-accordion]").forEach((accordion) => {
+      accordion.querySelectorAll(".accordion-item").forEach((item) => {
+        const trigger = item.querySelector(".accordion-trigger");
+        const panel = item.querySelector(".accordion-panel");
+        const syncHeight = () => {
+          panel.style.maxHeight = item.classList.contains("open") ? `${panel.scrollHeight}px` : "0px";
+        };
+        trigger.addEventListener("click", () => {
+          item.classList.toggle("open");
+          syncHeight();
+        });
+        syncHeight();
+        window.addEventListener("resize", syncHeight);
+      });
+    });
+
+    document.querySelectorAll("[data-tabs]").forEach((tabs) => {
+      const buttons = [...tabs.querySelectorAll("[data-tab]")];
+      const panels = [...tabs.querySelectorAll("[data-panel]")];
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((item) => item.classList.toggle("active", item === button));
+          panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === button.dataset.tab));
+        });
+      });
+    });
+
+    const productInput = document.querySelector("#productInput");
+    const userInput = document.querySelector("#userInput");
+    const goalInput = document.querySelector("#goalInput");
+    const promptResult = document.querySelector("#promptResult");
+    const buildPrompt = document.querySelector("#buildPrompt");
+
+    function generatePrompt() {
+      promptResult.textContent =
+`אני בונה ${productInput.value}.
+המשתמש המרכזי הוא: ${userInput.value}.
+המטרה: ${goalInput.value}.
+
+תעזור לי לבנות PRD קצר לשיעור 2:
+1. נסח בעיה ומטרה במשפט אחד.
+2. הצע MVP מצומצם עם Must / Should / Later.
+3. כתוב 3 User Stories עם Acceptance Criteria.
+4. ציין Data Model בסיסי.
+5. הצע 5 Analytics Events למדידה.
+6. הוסף סיכוני מוצר ושאלות פתוחות.
+
+שמור על תשובה קצרה, פרקטית וללא קוד עמוק.`;
+    }
+
+    buildPrompt.addEventListener("click", generatePrompt);
+    [productInput, userInput, goalInput].forEach((input) => input.addEventListener("input", generatePrompt));
+    generatePrompt();
+
+    const termsGrid = document.querySelector("#termsGrid");
+    const termSearch = document.querySelector("#termSearch");
+    const filterButtons = [...document.querySelectorAll("[data-filter]")];
+    const modal = document.querySelector("#termModal");
+    const modalTitle = document.querySelector("#modalTitle");
+    const modalDesc = document.querySelector("#modalDesc");
+    const modalExample = document.querySelector("#modalExample");
+    const closeModal = document.querySelector("#closeModal");
+    let activeFilter = "all";
+
+    function renderTerms() {
+      const query = termSearch.value.trim().toLowerCase();
+      const filtered = terms.filter((term) => {
+        const filterMatch = activeFilter === "all" || term.group === activeFilter;
+        const queryMatch = [term.name, term.desc, groupLabels[term.group]].join(" ").toLowerCase().includes(query);
+        return filterMatch && queryMatch;
+      });
+
+      termsGrid.innerHTML = "";
+
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "card";
+        empty.textContent = "לא נמצאו מושגים מתאימים.";
+        termsGrid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach((term) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "term-card";
+        card.innerHTML = `
+          <b>${term.name}</b>
+          <span>${term.desc}</span>
+          <small>${groupLabels[term.group]} · דוגמה</small>
+        `;
+        card.addEventListener("click", () => openTerm(term));
+        termsGrid.appendChild(card);
+      });
+    }
+
+    function openTerm(term) {
+      modalTitle.textContent = term.name;
+      modalDesc.textContent = term.desc;
+      modalExample.textContent = `דוגמה: ${term.example}`;
+      modal.classList.add("open");
+      closeModal.focus();
+    }
+
+    function hideModal() {
+      modal.classList.remove("open");
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+        renderTerms();
+      });
+    });
+
+    termSearch.addEventListener("input", renderTerms);
+    closeModal.addEventListener("click", hideModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) hideModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") hideModal();
+    });
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+
+    renderTerms();
+    updateProgress();
+  </script>
+</body>
+</html>
